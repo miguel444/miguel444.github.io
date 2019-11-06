@@ -45,7 +45,7 @@ document.getElementById("map-button").addEventListener('click', function(){
     
     var golden_room = L.latLng([ 760, 450 ]);
     L.marker(golden_room).addTo(map).bindPopup("<b>CUARTO DORADO</b><br>").on('click',function(){
-        alert(arrayanes.getlatLng())
+        alert(arrayanes.getLatLng())
     });
 
     
