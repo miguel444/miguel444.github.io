@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Guided</title>
-        <meta charset="utf-8" /><meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1, width=device-width">
+        <meta charset="utf-8" /><meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1, width=device-width, target-densitydpi=device-dpi">
         <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js" ></script>
         <link rel="stylesheet" href="./css/styles.css" />
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
@@ -13,6 +13,16 @@
         crossorigin=""></script>
     </head>
     <body>
+        <div id="modal-area" class="hide">
+            <div id="modal">
+                <h3>Title</h3>
+                <p></p>
+                <div class="modal-buttons">
+                    <button id="modal-cancel">Cancel</button>
+                    <button id="modal-accept">Accept</button>
+                </div>
+            </div>
+        </div>
         <div class="popup" id="loading-popup">
             <div class="popup-area">
                     <?xml version="1.0" encoding="iso-8859-1"?>
@@ -105,19 +115,19 @@
                 <div id="loading"><div id="loading-bar"></div></div>
             </div>
         </div>
-        <div class="popup hide" data-step="0" id="tutorial">
+        <div class="popup hide" data-step="0" id="tutorial0">
             <button class="close"></button>
             <div class="popup-area">
                 <h2>Tutorial 1</h2>
             </div>
         </div>
-        <div class="popup hide" data-step="1">
+        <div class="popup hide" data-step="1" id="tutorial1">
             <button class="close"></button>
             <div class="popup-area">
                 <h2>Tutorial 2</h2>
             </div>
         </div>
-        <div class="popup hide" data-step="2">
+        <div class="popup hide" data-step="2" id="tutorial2">
             <button class="close"></button>
             <div class="popup-area">
                 <h2>Tutorial 3</h2>
@@ -127,8 +137,12 @@
             <button class="close"></button>
             <video id="preview"></video>
         </div>
-        <div class="popup hide" id="map-preview"> 
+        <div class="popup hide" id="map-preview">
             <button class="close"></button>
+        </div>
+        <div class="popup hide" id="information-preview">
+            <button class="close"></button>
+            <article></article>
         </div>
         <div id="buttons-preview">
             <div class="preview-button" data-orientation="0"></div>
@@ -147,14 +161,8 @@
             </button>
             <button id="map-button" class="circle-section">
                 <img src="https://img.icons8.com/nolan/64/000000/polyline.png">
-                
             </button>
             <canvas id="enviroment"></canvas>
-            <div id="label-enviroment"></div>
-        </div>
-
-        <div id="screen_2" class="hide">
-
         </div>
 
         <script src="https://threejs.org/build/three.js"></script>
@@ -166,10 +174,10 @@
         <script src="./js/graph.js"></script>
         <script src="./js/graph-init.js"></script>
         <script src="./js/compass.js"></script>
-        <script src="./js/qr.js"></script>
         <script src="./js/mini-map.js"></script>
         <script src="./js/renderer.js"></script>
         <script src="./js/events.js"></script>
+        <script src="./js/qr.js"></script>
         <script src="./js/main.js"></script>
     </body>
 </html>
