@@ -8,7 +8,8 @@ document.getElementById("map-button").addEventListener('click', function(){
     popup_open("#map-preview");
 
     var map = L.map('map-preview', {
-        crs: L.CRS.Simple
+        crs: L.CRS.Simple,
+        minZoom: -5
     });
     
     var bounds = [[0,0], [1000,1250]];
