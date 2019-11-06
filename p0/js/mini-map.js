@@ -44,9 +44,11 @@ document.getElementById("map-button").addEventListener('click', function(){
     L.marker(comarabes).addTo(map).bindPopup("<b>SALA DE LOS ABENCERRAJES</b><br>");
     
     var golden_room = L.latLng([ 760, 450 ]);
-    L.marker(golden_room).addTo(map).bindPopup("<b>CUARTO DORADO</b><br>");
+    L.marker(golden_room).addTo(map).bindPopup("<b>CUARTO DORADO</b><br>").on('click',function(){
+        alert(arrayanes.getlatLng())
+    });
 
-    alert(arrayanes.getlatLng());
+    
     
     
 
