@@ -4,22 +4,24 @@ class mini_map{
     constructor(inicial){
         this._nodoIni = inicial;
         this._posActual = inicial;
-        var court_lions = L.latLng([ 700, 560 ]);
-          var map = L.map('map-preview', {
-            crs: L.CRS.Simple
-        });
-        L.marker(court_lions).addTo(map).bindPopup("<b>PATIO DE LOS LEONES</b><br> Se encuentra aqui").openPopup();
+        
     }
 
     initialize_map(){
 
-      
+        var map = L.map('map-preview', {
+            crs: L.CRS.Simple
+        });
         
         var bounds = [[0,0], [1000,1250]];
         var image = L.imageOverlay('./assets/Alhambra.png', bounds).addTo(map);
         
                 // load a tile layer
                 map.fitBounds(bounds);
+
+                var court_lions = L.latLng([ 700, 560 ]);
+          
+        L.marker(court_lions).addTo(map).bindPopup("<b>PATIO DE LOS LEONES</b><br> Se encuentra aqui").openPopup();
     
                 var arrayanes = L.latLng([ 720, 490 ]);
                 L.marker(arrayanes).addTo(map).bindPopup("<b>ARRAYANES</b><br> hello");
@@ -44,9 +46,9 @@ class mini_map{
 document.getElementById("map-button").addEventListener('click', function(){
     popup_open("#map-preview");
 
-    const mapa = new mini_map(court_lions._name);
+    
 
-    mapa.initialize_map();
+    initialize_map();
 
     
     
