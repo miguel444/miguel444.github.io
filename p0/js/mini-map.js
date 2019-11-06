@@ -25,56 +25,27 @@ class MiniMap{
 
     create_markers(renderer){
 
-        var redIcon = new L.Icon({
+        const redIcon = new L.Icon({
             iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
             iconSize: [25, 41],
             iconAnchor: [12, 41],
             popupAnchor: [1, -34],
             shadowSize: [41, 41]
-          });
+        });
 
-        if(renderer._current_node == diccionario_loc.get('Patio de los Leones')){
-            var court_lions = this.L.latLng([ 700, 560 ]);
-                this.L.marker(court_lions,{icon: redIcon}).addTo(this.map).bindPopup("<b>PATIO DE LOS LEONES</b><br> Se encuentra aqui").openPopup().on('click', function(){
-                    moveToMarker('Patio de los Leones');
-                });;
+        for (let i = 0; i < markers.length; i++) {
+            if(renderer._current_node == diccionario_loc.get(markers[i][0])){
+                var lugar = this.L.marker([markers[i][1], markers[i][2]], {icon: redIcon});
+            }
+            else{
+                var lugar = this.L.marker([markers[i][1], markers[i][2]]);
+            }
+            
+            lugar.addTo(this.map).bindPopup(`<b>${markers[i][0]}</b><br>`).on('click', function(){
+                moveToMarker(markers[i][0]);
+            });
         }
-        else{
-            var court_lions = this.L.latLng([ 700, 560 ]);
-            this.L.marker(court_lions).addTo(this.map).bindPopup("<b>PATIO DE LOS LEONES</b><br> Se encuentra aqui").openPopup().on('click', function(){
-                moveToMarker('Patio de los Leones');
-            });;
-        }
-
-        
-        
-        var arrayanes = this.L.latLng([ 720, 490 ]);
-        L.marker(arrayanes).addTo(this.map).bindPopup("<b>PATIO DE LOS ARRAYANES</b><br>").on('click', function(){
-            moveToMarker('Patio de los Arrayanes');
-        });
-
-        var pointList = [arrayanes,court_lions]
-        var firstpolyline = new L.Polyline(pointList, {
-            color: 'red',
-            weight: 8,
-            opacity: 0.5,
-            smoothFactor: 1
-        });
-        firstpolyline.addTo(this.map);
-                      
-        var dos_hermanas = this.L.latLng([ 750, 560 ]);
-        this.L.marker(dos_hermanas).addTo(this.map).bindPopup("<b>SALA DE DOS HERMANAS</b><br>").on('click', function(){
-            moveToMarker('Sala de Dos Hermanas');
-        });
-        
-        var comarabes = this.L.latLng([ 660, 550 ]);
-        this.L.marker(comarabes).addTo(this.map).bindPopup("<b>SALA DE LOS ABENCERRAJES</b><br>")
-        
-        var golden_room = this.L.latLng([ 760, 450 ]);
-        this.L.marker(golden_room).addTo(this.map).bindPopup("<b>CUARTO DORADO</b><br>").on('click', function(){
-            moveToMarker('Cuarto Dorado');
-        });
 
         function moveToMarker(place){
 
