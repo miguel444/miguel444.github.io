@@ -26,25 +26,29 @@ class MiniMap{
     create_markers(renderer){
 
         var court_lions = this.L.latLng([ 700, 560 ]);
-        this.L.marker(court_lions).addTo(this.map).bindPopup("<b>PATIO DE LOS LEONES</b><br> Se encuentra aqui").openPopup();
+        this.L.marker(court_lions).addTo(this.map).bindPopup("<b>PATIO DE LOS LEONES</b><br> Se encuentra aqui").openPopup().on('click', function(){
+            moveToMarker('Patio de los Leones');
+        });;
 
         var arrayanes = this.L.latLng([ 720, 490 ]);
-        L.marker(arrayanes).addTo(this.map).bindPopup("<b>ARRAYANES</b><br>");
+        L.marker(arrayanes).addTo(this.map).bindPopup("<b>PATIO DE LOS ARRAYANES</b><br>").on('click', function(){
+            moveToMarker('Patio de los Arrayanes');
+        });
                       
         var dos_hermanas = this.L.latLng([ 750, 560 ]);
-        this.L.marker(dos_hermanas).addTo(this.map).bindPopup("<b>DOS HERMANAS</b><br>");
+        this.L.marker(dos_hermanas).addTo(this.map).bindPopup("<b>SALA DE DOS HERMANAS</b><br>").on('click', function(){
+            moveToMarker('Sala de Dos Hermanas');
+        });
         
         var comarabes = this.L.latLng([ 660, 550 ]);
-        this.L.marker(comarabes).addTo(this.map).bindPopup("<b>SALA DE LOS ABENCERRAJES</b><br>");
+        this.L.marker(comarabes).addTo(this.map).bindPopup("<b>SALA DE LOS ABENCERRAJES</b><br>")
         
         var golden_room = this.L.latLng([ 760, 450 ]);
-        this.L.marker(golden_room).addTo(this.map).on('click', function(){
-            moveToMarker(renderer, 'Cuarto Dorado');
+        this.L.marker(golden_room).addTo(this.map).bindPopup("<b>CUARTO DORADO</b><br>").on('click', function(){
+            moveToMarker('Cuarto Dorado');
         });
 
-
-        
-        function moveToMarker(renderer, place){
+        function moveToMarker(place){
 
             modal(Modal.BOTH, "Localización", `¿Quiéres moverte a ${place}?`, _ => {
     

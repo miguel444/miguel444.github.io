@@ -21,6 +21,7 @@ dusk.connect(generalife, 90);
 let diccionario_loc = new Map();
 
 diccionario_loc.set('Patio de los Arrayanes', arrayanes);
+diccionario_loc.set('Patio de los Leones', court_lions);
 diccionario_loc.set('Piscina de la Alhambra', pool);
 diccionario_loc.set('Sala de Dos Hermanas', dos_hermanas);
 diccionario_loc.set('Cuarto Dorado', golden_room);
