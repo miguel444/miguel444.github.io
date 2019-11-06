@@ -6,7 +6,7 @@ class mini_map{
         this._posActual = inicial;
         
     }
-
+}
     initialize_map(){
 
         var map = L.map('map-preview', {
@@ -37,7 +37,7 @@ class mini_map{
                 L.marker(golden_room).addTo(map).bindPopup("<b>CUARTO DORADO</b><br>");
 
     }
-}
+
 
 
   
