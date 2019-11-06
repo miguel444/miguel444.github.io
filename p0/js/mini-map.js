@@ -35,19 +35,33 @@ class MiniMap{
           });
 
         if(renderer._current_node == diccionario_loc.get('Patio de los Leones')){
-            var court_lions = this.L.latLng([ 700, 560 ], {icon: redIcon});
+            var court_lions = this.L.latLng([ 700, 560 ]);
+                this.L.marker(court_lions,{icon: redIcon}).addTo(this.map).bindPopup("<b>PATIO DE LOS LEONES</b><br> Se encuentra aqui").openPopup().on('click', function(){
+                    moveToMarker('Patio de los Leones');
+                });;
         }
         else{
             var court_lions = this.L.latLng([ 700, 560 ]);
+            this.L.marker(court_lions).addTo(this.map).bindPopup("<b>PATIO DE LOS LEONES</b><br> Se encuentra aqui").openPopup().on('click', function(){
+                moveToMarker('Patio de los Leones');
+            });;
         }
-        this.L.marker(court_lions).addTo(this.map).bindPopup("<b>PATIO DE LOS LEONES</b><br> Se encuentra aqui").openPopup().on('click', function(){
-            moveToMarker('Patio de los Leones');
-        });;
 
+        
+        
         var arrayanes = this.L.latLng([ 720, 490 ]);
         L.marker(arrayanes).addTo(this.map).bindPopup("<b>PATIO DE LOS ARRAYANES</b><br>").on('click', function(){
             moveToMarker('Patio de los Arrayanes');
         });
+
+        var pointList = [arrayanes,court_lions]
+        var firstpolyline = new L.Polyline(pointList, {
+            color: 'red',
+            weight: 8,
+            opacity: 0.5,
+            smoothFactor: 1
+        });
+        firstpolyline.addTo(this.map);
                       
         var dos_hermanas = this.L.latLng([ 750, 560 ]);
         this.L.marker(dos_hermanas).addTo(this.map).bindPopup("<b>SALA DE DOS HERMANAS</b><br>").on('click', function(){
@@ -67,6 +81,7 @@ class MiniMap{
             modal(Modal.BOTH, "Localización", `¿Quiéres moverte a ${place}?`, _ => {
     
                 renderer.moveTo(diccionario_loc.get(place));
+                golden_room.setIcon(redIcon)
                 popup_close("#map-preview");
     
             });
