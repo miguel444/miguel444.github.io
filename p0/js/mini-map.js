@@ -20,7 +20,7 @@ document.getElementById("map-button").addEventListener('click', function(){
 
     var court_lions = L.marker([ 700, 560 ],{
 
-        color: 'red';
+        color: 'red'
 
     }).addTo(map).bindPopup("<b>PATIO DE LOS LEONES</b><br> Se encuentra aqui").openPopup();
 
