@@ -46,7 +46,7 @@ document.getElementById("map-button").addEventListener('click', function(){
     var golden_room = L.latLng([ 760, 450 ]);
     L.marker(golden_room).addTo(map).bindPopup("<b>CUARTO DORADO</b><br>");
 
-    var travel = L.polyline([[arrayanes ], [ court_lions ]]).addTo(map);
+    var travel = L.polyline([[arrayanes.getlatLng() ], [ court_lions.getLatLng()]]).addTo(map);
     
     
 
