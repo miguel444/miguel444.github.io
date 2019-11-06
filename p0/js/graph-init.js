@@ -5,7 +5,6 @@ court_lions.addItem(leones);
 
 const dusk = new Node("Dusk", "dusk");
 const dos_hermanas = new Node("Dos Hermanas", "dos_hermanas");
-dos_hermanas.setPosition(100, 200);
 
 const golden_room = new Node("Habitación dorada", "golden_room");
 const mocarabes = new Node("Mocarabes", "mocarabes");

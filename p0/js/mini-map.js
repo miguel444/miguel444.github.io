@@ -5,14 +5,15 @@ class mini_map{
         this._nodoIni = inicial;
         this._posActual = inicial;
         var court_lions = L.latLng([ 700, 560 ]);
+          var map = L.map('map-preview', {
+            crs: L.CRS.Simple
+        });
         L.marker(court_lions).addTo(map).bindPopup("<b>PATIO DE LOS LEONES</b><br> Se encuentra aqui").openPopup();
     }
 
     initialize_map(){
 
-        var map = L.map('map-preview', {
-            crs: L.CRS.Simple
-        });
+      
         
         var bounds = [[0,0], [1000,1250]];
         var image = L.imageOverlay('./assets/Alhambra.png', bounds).addTo(map);
