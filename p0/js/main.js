@@ -1,5 +1,5 @@
 // Class
-//!function(a){var b=a.createElement("script");b.onload=function(){TouchEmulator()},b.src="//cdn.rawgit.com/hammerjs/touchemulator/0.0.2/touch-emulator.js",a.body.appendChild(b)}(document);
+!function(a){var b=a.createElement("script");b.onload=function(){TouchEmulator()},b.src="//cdn.rawgit.com/hammerjs/touchemulator/0.0.2/touch-emulator.js",a.body.appendChild(b)}(document);
 
 const QUEUE = [
   /* Skyboxes */
@@ -40,31 +40,62 @@ window.onload = function(){
     setTimeout(_ => {
     
       document.getElementById("loading-popup").classList.add("hide");
-      popup_open("#tutorial");
+      popup_open("#tutorial0");
     
-    }, 2000);
+    }, 1000);
     
     
     const renderer = new Renderer(cache, "enviroment");
     renderer.moveTo(court_lions);
     renderer.start();
+
+    const qr = new Qr();
+
+    document.querySelector("#qr-button").addEventListener('click', function(){
+      
+      popup_open("#qr-preview");
+      qr.start_scanner(renderer);
+  
+    });
+  
+    document.querySelector("#qr-preview > .close").addEventListener('click', function(){
+      
+      qr.stop_scanner();
+  
+    });
+
+    const minimap = new MiniMap();
+
+    /* Events */
+    document.getElementById("map-button").addEventListener('click', function(){
+      popup_open("#map-preview");  
+      minimap.create_markers(renderer);  
+    });
     
     /* EVENTS */
+    let start_time = 0;
+
+    const touch = {x: 0, y: 0};
+
     const touchstart = function(e){
       
-        e.preventDefault();
+      e.preventDefault();
 
-        if(e.touches.length == 2){
-          
-          document.body.classList.add("doubletouch");
-          touch.x = (e.touches[0].clientX + e.touches[1].clientX) * .5;
-          touch.y = (e.touches[0].clientY + e.touches[1].clientY) * .5;
-          
-        }
+      start_time = (new Date()).getTime();
+
+      touch.x = e.touches[0].clientX;
+      touch.y = e.touches[0].clientY;
+
+      if(e.touches.length == 2){
+        
+        document.body.classList.add("doubletouch");
+        touch.x = (e.touches[0].clientX + e.touches[1].clientX) * .5;
+        touch.y = (e.touches[0].clientY + e.touches[1].clientY) * .5;
+        
+      }
 
     };
 
-    const touch = {x: 0, y: 0};
 
     const touchmove = function(e){
 
@@ -75,7 +106,7 @@ window.onload = function(){
 
         const UMBRAL_LONG = (Math.min(window.innerWidth, window.innerHeight) * .25);
 
-        //e.touches[1] = {clientX: e.touches[0].clientX, clientY: e.touches[0].clientY - 50}
+        e.touches[1] = {clientX: e.touches[0].clientX, clientY: e.touches[0].clientY - 50}
 
         const x_touch = (e.touches[0].clientX + e.touches[1].clientX) * .5;
         const y_touch = (e.touches[0].clientY + e.touches[1].clientY) * .5;
@@ -96,8 +127,9 @@ window.onload = function(){
     };
 
     const touchend = function(e){
-        
       e.preventDefault();
+      
+      const current_time = (new Date()).getTime();
 
       let body_class = document.body.classList;
       if(body_class.contains("doubletouch")){
@@ -110,6 +142,19 @@ window.onload = function(){
               document.querySelector(".preview-button.hover").classList.remove("hover");
           }
           body_class.remove("doubletouch");
+
+      }else if(current_time - start_time <= 200){
+
+        // Ray Casting
+        const canvas = document.getElementById("enviroment");
+
+        const x = (touch.x / canvas.clientWidth) * 2 - 1;
+        const y = -(touch.y / canvas.clientHeight) * 2 + 1;
+
+        const objects = renderer.rayCast(x, y);
+        if(objects.length > 0){
+          show_info(objects[0]);
+        }
 
       }
 

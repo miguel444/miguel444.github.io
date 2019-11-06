@@ -16,6 +16,9 @@ class Renderer{
     this._current_node  = null;
     this._azimuth_angle = 0;
 
+    
+    this._raycast = new THREE.Raycaster();
+
     // Renderer
     this.createRenderer();
     
@@ -99,6 +102,7 @@ class Renderer{
     this._current_node.connections().forEach(connection => {
       
       const id = mod(connection.angle() - this._azimuth_angle, 4);
+
       const image = this._cache.get(`image_${connection.to().getTextureId()}`);
       const element = document.querySelectorAll(".preview-button")[id];
 
@@ -111,6 +115,18 @@ class Renderer{
     used.forEach(e => document.querySelectorAll(".preview-button")[e].classList.add("blocked"));
   };
 
+  rayCast(x, y){
+
+    const position = new THREE.Vector2(x, y);
+    this._raycast.setFromCamera(position, this._camera);
+    
+    let collide = this._raycast.intersectObjects(this._foreground_scene.children);
+
+    collide = collide.map(e => e.object);
+    collide = collide.map(e => this._current_node._items.find(k => k._shape.uuid === e.uuid));
+
+    return collide;
+  };
 
   moveTo(node){
 
@@ -131,21 +147,7 @@ class Renderer{
     this._current_node._items.forEach(item => {
       
       /* Three JS */
-      const size = item._size;
-      
-      const cube = new THREE.Mesh(
-        new THREE.BoxGeometry(size, size, 1.),
-        new THREE.MeshPhongMaterial({ color: 0xFF0000, opacity: 0.5, transparent: true })
-      );
-
-      cube.rotation.set(0, item._angle, 0);
-      cube.position.set(
-        Math.cos(item._angle) * 100.,
-        0,
-        Math.sin(item._angle) * 100.
-      );
-
-      this._foreground_scene.add(cube);
+      this._foreground_scene.add(item.getShape());
 
       /* HTML */
       const label = document.createElement("span");
@@ -165,10 +167,9 @@ class Renderer{
 
       const degrees = toAngle(this.getAzimuthalAngle());
       const id = angle2ID(degrees);
-      
       if(self.azimuth_angle != id){
-
-        self.azimuth_angle = id;
+        
+        self._azimuth_angle = id;
         self.updateDirection();
       
       }
@@ -227,8 +228,6 @@ class Renderer{
 
       span.style.display = dot >= 0 ? `block` : `none`;
       span.style.transform = `translate(-50%, -50%) translate(${x}px,${y}px)`;
-
-      span.style.width     = `${ item._size * 5 }px`;
     }
 
   };

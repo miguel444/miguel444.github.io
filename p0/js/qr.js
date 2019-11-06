@@ -1,41 +1,77 @@
 /* QR */
 
-/* Scanner */
-let scanner = new Instascan.Scanner({
-    video: document.getElementById('preview')
-});
+class Qr{
 
+    constructor(){
+        if(!!Qr.instance) return Qr.instance;
 
-const start_scanner = function(){
+        Qr.instance = this;
 
-    Instascan.Camera.getCameras().then(cameras => {
-        scanner.start(cameras.pop());
-    });
+        /* Scanner */
+        let scanner = new Instascan.Scanner({
+            video: document.getElementById('preview'),
+            mirror: false
+        });
+        
+        this.scanner = scanner;
 
-};
+        return this;
+    };
 
-const stop_scanner = function(){
+    start_scanner(renderer){
+        
+        Instascan.Camera.getCameras().then(cameras => {
+            if(cameras.length > 0){
+                
+                const back_camera = cameras.find(e => e.name !== null && e.name.indexOf("back") >= 0);
+                this.scanner.start(back_camera === undefined ? cameras[0] : back_camera);
+                
 
-    scanner.stop();
+            }else{
 
-};
+                document.getElementById("qr-button").classList.add("none");
 
+            }
 
-scanner.addListener('scan', (content) => {
-    window.open(content, "_blank");
-});
-
-/* Events */
-document.querySelector("#qr-button").addEventListener('click', function(){
+        });
     
-    popup_open("#qr-preview");
-    start_scanner();
-
-});
-
-
-document.querySelector("#qr-preview > .close").addEventListener('click', function(){
+        this.read_qrcode(renderer);
+    };
     
-    stop_scanner();
+    stop_scanner(){
+    
+        this.scanner.stop();
+    
+    };
+    
+    read_qrcode(renderer) {
 
-});
+        this.scanner.addListener('scan', (content) => {
+
+            let obj = JSON.parse(content);
+
+            if(obj.type == "location"){
+
+                modal(Modal.BOTH, "QR de Localización", `¿Quiéres moverte a ${obj.loc}?`, _ => {
+
+                    renderer.moveTo(diccionario_loc.get(obj.loc));
+                    this.stop_scanner();
+                    popup_close("#qr-preview");
+
+                });
+
+            }
+            else if (obj.type == "information") {
+
+
+                modal(Modal.BOTH, "QR de Información", `¿Quiéres obtener informacion sobre  ${obj.inf}?`, _ => {
+
+                    popup_close("#qr-preview");
+                    this.stop_scanner();
+                    show_info(items_dictionary.get(obj.inf));
+
+                });
+            }
+        });    
+    }
+};
